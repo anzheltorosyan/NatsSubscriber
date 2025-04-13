@@ -34,35 +34,60 @@ machine:
 ### 3-Layer Architecture
 
 The project follows a standard three-layered design:
+
 ● API (api/Main.java) - Starts the app, connects to NATS, listens for messages
+
 ● Service (service/MessageProcessor.java) - Validates and processes
 incoming messages
+
 ● Data (data/MessageRepository.java) - Handles database connection and
 message storage
+
 Each layer is modular and follows separation of concerns principles.
 
 
 ### Project Structure
 
 NatsSubscriber/
+
 ├── src/
+
 │ ├── main/
+
 │ │ ├── java/
+
 │ │ │ ├── api/Main.java
+
 │ │ │ ├── service/MessageProcessor.java
+
 │ │ │ └── data/MessageRepository.java
+
 │ │ └── resources/
+
 │ │ ├── application.properties
+
 │ │ └── messages_schema.sql
+
 │ └── test/
+
 │ └── java/
+
 │ ├── service/MessageProcessorTest.java
+
 │ └── data/MessageRepositoryTest.java
+
 ├── Dockerfile
+
 ├── docker-compose.yml
+
 ├── pom.xml
+
 ├── .gitignore
-└── README.pdf
+
+└── README.md
+
+└── README.md.pdf
+
 
 ## Step-by-Step Setup Instructions
 
@@ -72,8 +97,11 @@ NatsSubscriber/
 
 
 ● Run PostgreSQL
+
 ● Create a database named: ```CREATE DATABASE nats_messages;```
+
 ● Run the schema setup file ```src/main/resources/messages_schema.sql```
+
 ● Important: Update src/main/resources/application.properties to match your
 own PostgreSQL credentials, for example:
 ```
@@ -88,9 +116,13 @@ credentials.
 ### Option B: Docker
 
 ● PostgreSQL is pre-configured via Docker Compose with:
+
 ● Username: postgres
+
 ● Password: 152535
+
 ● Database: nats_messages
+
 No manual credential configuration is required when running the Docker setup.
 
 
@@ -111,9 +143,13 @@ NATS will start automatically with Docker Compose.
 
 
 ● Ensure PostgreSQL and NATS are running
+
 ● Open the project in IntelliJ
+
 ● Run api/Main.java
+
 ● You should see:
+
 ```
 Connecting to NATS...
 Subscribed to 'updates'. Waiting for messages...
@@ -122,6 +158,7 @@ Subscribed to 'updates'. Waiting for messages...
 
 
 ● Build the project: ```mvn clean package```
+
 ● Start all services:
 ```
 docker compose build
@@ -132,6 +169,7 @@ docker compose up
 ### 4. Send a Test Message
 
 ● From NATS CLI:  ```nats pub updates "Message from CLI"```
+
 ● Expected application output:
 ```
 Received message: Message from CLI
@@ -156,16 +194,24 @@ cd NatsSubscriber
 ```
 
 ● To open in IntelliJ:
+
 ○ File → Open → Select the project folder
+
 ○ Let IntelliJ import the Maven project (pom.xml)
+
 ○ Run Main.java or use the Maven panel
+
 
 ### Docker Compose Overview
 
 Docker Compose sets up:
+
 ● PostgreSQL with schema
+
 ● NATS server
+
 ● Java app with environment-based configuration
+
 To start:  ```docker compose up```
 To stop:  ```docker compose down```
 
@@ -183,8 +229,12 @@ Recommended entries:
 ### Author
 
 Student: Anzhel Torosyan
+
 Course: Software Engineering (Spring 2025)
+
 Instructor: Vahe Momjyan
+
 University: American University of Armenia
+
 
 
