@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # NATS server
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+
+  # PostgreSQL DB
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: nats_messages
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 152535
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Java App
+  app:
+    build: .
+    depends_on:
+      - nats
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/nats_messages
+      DB_USER: postgres
+      DB_PASSWORD: 152535
+    command: >
+      java
+      -Ddb.url=${DB_URL}
+      -Ddb.user=${DB_USER}
+      -Ddb.password=${DB_PASSWORD}
+      -jar app.jar
+    restart: on-failure
+
+volumes:
+  postgres_data:
